@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IDH de mi estado</title>
+  <style>
+    :root {
+      --uva: #2a0845;
+      --morado: #5b0e91;
+      --violeta: #7b2cbf;
+      --lila: #c77dff;
+      --lavanda: #f1e4ff;
+      --fondo: #f7f0ff;
+      --texto: #1f0533;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Arial Black", "Segoe UI", Arial, sans-serif;
+      color: var(--texto);
+      background-color: var(--fondo);
+      background-image:
+        linear-gradient(60deg, rgba(123, 44, 191, 0.07) 25%, transparent 25%),
+        linear-gradient(-60deg, rgba(123, 44, 191, 0.07) 25%, transparent 25%);
+      background-size: 48px 84px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Bloque con profundidad: cara frontal + caras laterales con sombras sólidas */
+    .bloque {
+      background: #fff;
+      border: 3px solid var(--uva);
+      box-shadow:
+        4px 4px 0 var(--violeta),
+        8px 8px 0 var(--morado),
+        12px 12px 0 var(--uva);
+    }
+
+    header {
+      background: var(--morado);
+      border-bottom: 6px solid var(--uva);
+      padding: 34px 16px 40px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .titulo {
+      display: inline-block;
+      background: var(--uva);
+      color: #fff;
+      padding: 14px 34px;
+      transform: skewX(-14deg);
+      box-shadow: 8px 8px 0 var(--lila);
+    }
+    .titulo h1 {
+      margin: 0;
+      transform: skewX(14deg);
+      font-size: clamp(1.7rem, 6vw, 3rem);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    header p {
+      margin: 22px auto 0;
+      max-width: 560px;
+      color: var(--lavanda);
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 1.05rem;
+    }
+
+    main {
+      width: 100%;
+      max-width: 820px;
+      margin: 36px auto 44px;
+      padding: 0 16px;
+      flex: 1;
+    }
+    section { padding: 24px; margin-bottom: 34px; }
+
+    .etiqueta {
+      display: inline-block;
+      background: var(--violeta);
+      color: #fff;
+      padding: 6px 18px;
+      margin: 0 0 16px 4px;
+      transform: skewX(-14deg);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .etiqueta span { display: inline-block; transform: skewX(14deg); }
+
+    p.texto {
+      margin: 0 0 18px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.6;
+      color: #3a1656;
+    }
+
+    .componentes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .comp {
+      background: var(--lavanda);
+      border: 3px solid var(--uva);
+      padding: 14px 12px;
+      transform: skewX(-8deg);
+      box-shadow: 5px 5px 0 var(--violeta);
+    }
+    .comp > div { transform: skewX(8deg); }
+    .comp strong { display: block; color: var(--morado); text-transform: uppercase; font-size: 0.95rem; }
+    .comp small { display: block; margin-top: 4px; font-family: "Segoe UI", Arial, sans-serif; font-size: 0.88rem; color: #4a2468; }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--morado);
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+    .controles { display: flex; gap: 16px; flex-wrap: wrap; align-items: stretch; }
+    select {
+      flex: 1 1 240px;
+      padding: 13px 14px;
+      font-size: 1rem;
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-weight: bold;
+      color: var(--texto);
+      background: var(--lavanda);
+      border: 3px solid var(--uva);
+      border-radius: 0;
+      box-shadow: 5px 5px 0 var(--uva);
+      outline: none;
+    }
+    select:focus { background: #fff; box-shadow: 5px 5px 0 var(--lila); }
+    button {
+      flex: 0 0 auto;
+      padding: 13px 34px;
+      font-family: inherit;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #fff;
+      background: var(--violeta);
+      border: 3px solid var(--uva);
+      border-radius: 0;
+      transform: skewX(-14deg);
+      box-shadow: 6px 6px 0 var(--uva);
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.1s, background 0.2s;
+    }
+    button span { display: inline-block; transform: skewX(14deg); }
+    button:hover:not(:disabled) { background: var(--morado); }
+    button:active:not(:disabled) { transform: skewX(-14deg) translate(4px, 4px); box-shadow: 2px 2px 0 var(--uva); }
+    button:disabled { background: #a98bc4; cursor: wait; }
+
+    #resultado {
+      display: none;
+      margin-top: 26px;
+      padding: 18px 20px;
+      background: var(--lavanda);
+      border: 3px solid var(--uva);
+      border-left: 14px solid var(--violeta);
+      box-shadow: 8px 8px 0 var(--uva);
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+    #resultado.error {
+      background: #ffe6ee;
+      border-left-color: #c2185b;
+      color: #7a0f3a;
+    }
+
+    footer {
+      background: var(--uva);
+      border-top: 6px solid var(--violeta);
+      color: var(--lavanda);
+      text-align: center;
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      padding: 18px 16px;
+    }
+
+    @media (max-width: 640px) {
+      .componentes { grid-template-columns: 1fr; }
+      section { padding: 18px; }
+      .bloque {
+        box-shadow:
+          3px 3px 0 var(--violeta),
+          6px 6px 0 var(--morado),
+          9px 9px 0 var(--uva);
+      }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="titulo"><h1>IDH de mi estado</h1></div>
+    <p>¿Qué tan bien se vive en cada estado del país? Descúbrelo con datos del PNUD y un agente de inteligencia artificial.</p>
+  </header>
+
+  <main>
+    <section class="bloque">
+      <div class="etiqueta"><span>El indicador</span></div>
+      <p class="texto">El IDH no mide solo cuánto dinero hay en un lugar, sino qué oportunidades reales tiene su gente. La ONU, a través del PNUD, combina tres dimensiones en una calificación entre 0 y 1: un estado con 0.8 ofrece mejores condiciones de vida que uno con 0.6.</p>
+      <div class="componentes">
+        <div class="comp"><div><strong>🩺 Salud</strong><small>Cuántos años se espera que viva una persona</small></div></div>
+        <div class="comp"><div><strong>🎓 Educación</strong><small>Años de escuela cursados y esperados</small></div></div>
+        <div class="comp"><div><strong>💼 Ingreso</strong><small>Recursos por persona para cubrir sus necesidades</small></div></div>
+      </div>
+    </section>
+
+    <section class="bloque">
+      <div class="etiqueta"><span>Explora un estado</span></div>
+      <label for="entidad">Selecciona el estado que quieres analizar</label>
+      <div class="controles">
+        <select id="entidad">
+          <option>Aguascalientes</option>
+          <option>Baja California</option>
+          <option>Baja California Sur</option>
+          <option>Campeche</option>
+          <option>Chiapas</option>
+          <option>Chihuahua</option>
+          <option value="Ciudad de México (Distrito Federal)">Ciudad de México</option>
+          <option>Coahuila</option>
+          <option>Colima</option>
+          <option>Durango</option>
+          <option value="Estado de México (México)">Estado de México</option>
+          <option>Guanajuato</option>
+          <option>Guerrero</option>
+          <option>Hidalgo</option>
+          <option>Jalisco</option>
+          <option>Michoacán</option>
+          <option>Morelos</option>
+          <option>Nayarit</option>
+          <option>Nuevo León</option>
+          <option>Oaxaca</option>
+          <option>Puebla</option>
+          <option>Querétaro</option>
+          <option>Quintana Roo</option>
+          <option>San Luis Potosí</option>
+          <option selected>Sinaloa</option>
+          <option>Sonora</option>
+          <option>Tabasco</option>
+          <option>Tamaulipas</option>
+          <option>Tlaxcala</option>
+          <option>Veracruz</option>
+          <option>Yucatán</option>
+          <option>Zacatecas</option>
+        </select>
+        <button id="consultar" type="button"><span>Consultar</span></button>
+      </div>
+      <div id="resultado" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer>
+    Fuente: Informe IDH para las entidades federativas de México (PNUD, 2015), cifras del año 2012.<br>
+    Hecho por Roberto Carlos Robles Campos · Desarrollo Sustentable · ITMazatlán, TecNM
+  </footer>
+
+  <script>
+    // Pega aquí la URL de tu webhook de Make (Webhooks → Custom webhook):
+    const WEBHOOK_URL = "https://hook.us2.make.com/naxwmsoesc4d0xjqhe7e2q9ed43ngnh2";
+
+    const selector = document.getElementById("entidad");
+    const boton = document.getElementById("consultar");
+    const textoBoton = boton.querySelector("span");
+    const resultado = document.getElementById("resultado");
+
+    boton.addEventListener("click", async () => {
+      const textoOriginal = textoBoton.textContent;
+      boton.disabled = true;
+      textoBoton.textContent = "Consultando...";
+      resultado.style.display = "block";
+      resultado.classList.remove("error");
+      resultado.textContent = "Consultando...";
+
+      try {
+        const respuesta = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          body: new URLSearchParams({ entidad: selector.value })
+        });
+        if (!respuesta.ok) throw new Error("HTTP " + respuesta.status);
+        const texto = await respuesta.text();
+        resultado.textContent = texto;
+      } catch (error) {
+        resultado.classList.add("error");
+        resultado.textContent = "No se pudo obtener la información, intenta de nuevo.";
+      } finally {
+        boton.disabled = false;
+        textoBoton.textContent = textoOriginal;
+      }
+    });
+  </script>
+</body>
+</html>
