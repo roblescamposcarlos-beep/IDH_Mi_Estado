@@ -120,13 +120,12 @@ Se consultaron desde la página publicada cinco entidades: Sinaloa, la de IDH m�
 alto (Ciudad de México, "Distrito Federal" en el informe), la de IDH más bajo
 (Chiapas) y, además, Estado de México y Michoacán.
 
-| Sinaloa | Estado de México | Michoacán |
+| Sinaloa | Ciudad de México (IDH más alto) | Chiapas (IDH más bajo) |
 |---|---|---|
-| ![Sinaloa](imagenes/consulta_sinaloa.png) | ![Estado de México](imagenes/consulta_estado_de_mexico.png) | ![Michoacán](imagenes/consulta_michoacan.png) |
+| ![Sinaloa](imagenes/consulta_sinaloa.png) | ![Ciudad de México](imagenes/consulta_cdmx.png) | ![Chiapas](imagenes/consulta_chiapas.png) |
 
-| Ciudad de México (IDH más alto) | Chiapas (IDH más bajo) |
-|---|---|
-| ![Ciudad de México](imagenes/prueba_previa_cdmx.png) | ![Chiapas](imagenes/prueba_previa_chiapas.png) |
+Estado de México y Michoacán se consultaron como pruebas adicionales; sus
+resultados están en las tablas de abajo.
 
 ### Sinaloa
 | Dato | Valor según la IA | Valor en el PDF | ¿Coincide? |
@@ -190,7 +189,7 @@ alto (Ciudad de México, "Distrito Federal" en el informe), la de IDH más bajo
 - Los **componentes fallaron en las cinco entidades**. En Sinaloa, Chiapas y Estado de México la IA tomó los tres valores del Índice de Salud (2008, 2010 y 2012) y los reportó como Salud, Educación e Ingreso. En Ciudad de México y Michoacán mezcló años y valores de otros renglones.
 - La causa probable es que el Cuadro 3 ocupa dos páginas y en la segunda (Educación 2012 e Ingreso) **no aparecen los nombres de las entidades**, así que la IA no supo a qué renglón correspondía cada valor.
 - Michoacán (0.700) cae en el rango "bajo" del Cuadro 1, pero la IA dijo "medio". Las instrucciones de la práctica solo mencionan muy alto, alto y medio, aunque el PDF sí incluye el nivel bajo.
-- Las respuestas **no son constantes**: una consulta previa de Sinaloa ([captura](imagenes/prueba_previa_sinaloa.png)) respondió "lugar 7 de 32" (su lugar de 2008) y la consulta nueva respondió 11, que es el correcto.
+- Las respuestas **no son constantes**: una consulta previa de Sinaloa respondió "lugar 7 de 32" (su lugar de 2008) y la consulta nueva respondió 11, que es el correcto.
 
 ### Créditos consumidos (historial del escenario)
 
